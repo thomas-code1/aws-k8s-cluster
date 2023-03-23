@@ -48,35 +48,7 @@ module "worker" {
   node_sg_id = module.network.worker_sg_id
 }
 
-# resource "local_file" "inventory" {
-#   filename = "../ansible/hosts"
-#   content  = <<EOF
-#   [controlplane]
-#   node01 ansible_ssh_host=${module.node[0].public_ip}
-
-#   [workers]
-#   node02 ansible_ssh_host=${module.node[1].public_ip}
-#   node03 ansible_ssh_host=${module.node[2].public_ip}
-
-#   [nodes:children]
-#   controlplane
-#   workers
-
-#   [nodes:vars]
-#   ansible_ssh_port=22
-#   ansible_ssh_user=ubuntu
-#   ansible_ssh_common_args='-o StrictHostKeyChecking=accept-new'
-#   ansible_ssh_private_key_file="~/.ssh/thomas_perso.pem"
-
-#   [controlplane:vars]
-#   kubernetes_role=control_plane
-
-#   [workers:vars]
-#   kubernetes_role=node
-
-#   EOF
-# }
-
+# Creation of Ansible inventory file
 resource "local_file" "ansible_inventory" {
   content = templatefile("./modules/templates/hosts.tpl",
     {
