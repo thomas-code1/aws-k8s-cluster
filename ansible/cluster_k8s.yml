@@ -1,0 +1,7 @@
+---
+- name: "Install K8S Cluster"
+  hosts: all
+  become: true
+  roles:
+    - role: geerlingguy.containerd
+    - role: geerlingguy.kubernetes
