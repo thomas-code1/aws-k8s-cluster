@@ -26,7 +26,6 @@ variable "node_name" {
 variable "aws_key" {
   description = "AWS SSH Key"
   type        = string
-  default     = "thomas"
 }
 
 variable "associate_public_ip" {
