@@ -9,7 +9,7 @@ resource "aws_vpc" "cluster_vpc" {
   }
 }
 
-# Creates the Internet Gateway for the created VPC
+# Creates the Internet Gateway for the new VPC
 resource "aws_internet_gateway" "main_igw" {
   vpc_id = aws_vpc.cluster_vpc.id
 

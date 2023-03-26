@@ -28,14 +28,16 @@ module "network" {
 module "controlplane" {
   source = "./modules/ec2"
 
-  node_ami            = data.aws_ami.ubuntu_ami.image_id
-  node_size           = var.ec2_type
-  node_subnet         = module.network.subnet_list[0]
+  node_ami  = data.aws_ami.ubuntu_ami.image_id
+  node_size = var.ec2_type
+
+  # creates the controlplane on the 1st new subnet created
+  node_subnet = module.network.subnet_list[0]
+
   associate_public_ip = true
-  #  associate_public_ip = (count.index == 1 ? true : false) # Gives a public IP address only to the 1st machine
-  node_name  = "K8S Controlplane"
-  node_sg_id = module.network.controlplane_sg_id
-  aws_key    = "thomas"
+  node_name           = "K8S Controlplane"
+  node_sg_id          = module.network.controlplane_sg_id
+  aws_key             = "thomas"
 }
 
 # Creates the worker nodes
@@ -43,14 +45,16 @@ module "worker" {
   count  = var.worker_number
   source = "./modules/ec2"
 
-  node_ami            = data.aws_ami.ubuntu_ami.image_id
-  node_size           = var.ec2_type
-  node_subnet         = element(module.network.subnet_list, count.index % length(module.network.subnet_list))
+  node_ami  = data.aws_ami.ubuntu_ami.image_id
+  node_size = var.ec2_type
+
+  # creates the nodes on the different subnets created
+  node_subnet = element(module.network.subnet_list, count.index % length(module.network.subnet_list))
+
   associate_public_ip = true
-  #  associate_public_ip = (count.index == 1 ? true : false) # Gives a public IP address only to the 1st machine
-  node_name  = "K8S Worker ${count.index + 1}"
-  node_sg_id = module.network.worker_sg_id
-  aws_key    = "thomas"
+  node_name           = "K8S Worker ${count.index + 1}"
+  node_sg_id          = module.network.worker_sg_id
+  aws_key             = "thomas"
 }
 
 # Creation of Ansible inventory file

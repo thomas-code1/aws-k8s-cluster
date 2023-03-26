@@ -4,11 +4,11 @@ output "subnet_list" {
 }
 
 output "controlplane_sg_id" {
-  description = "Security Group ID"
+  description = "Controlplane Security Group ID"
   value       = aws_security_group.controlplane_sg.id
 }
 
 output "worker_sg_id" {
-  description = "Security Group ID"
+  description = "Workers Security Group ID"
   value       = aws_security_group.worker_sg.id
 }

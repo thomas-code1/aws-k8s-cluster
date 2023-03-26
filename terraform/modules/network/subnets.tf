@@ -1,9 +1,9 @@
-# Retrieves the AZ of the region
+# Retrieves the Availability Zone of the Region used
 data "aws_availability_zones" "available" {
   state = "available"
 }
 
-# Creates the Subnets
+# Creates one subnet on each Availability Zone 
 resource "aws_subnet" "cluster_subnet" {
   count      = length(data.aws_availability_zones.available.names)
   vpc_id     = aws_vpc.cluster_vpc.id
