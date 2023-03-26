@@ -2,3 +2,6 @@
 terraform/.terraform/
 .terraform.lock.hcl
 *tfstate*
+hosts
+ansible/roles/andrewrothstein.k9s/*
+ansible/roles/andrewrothstein.unarchive-deps/*

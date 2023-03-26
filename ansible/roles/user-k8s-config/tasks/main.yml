@@ -1,0 +1,18 @@
+---
+- name: Creation of the .kube folder for ubuntu user
+  file:
+    path: /home/{{user}}/.kube
+    state: directory
+    owner: "{{user}}"
+    group: "{{group}}"
+
+- name: Copy of kube config file to ubuntu home
+  copy:
+    src: "/root/.kube/config"
+    dest: /home/{{user}}/.kube/config
+    remote_src: yes
+    owner: "{{user}}"
+    group: "{{group}}"
+
+- name: Creation of k alias
+  shell: echo 'alias k="kubectl"' >> /home/{{user}}/.bashrc

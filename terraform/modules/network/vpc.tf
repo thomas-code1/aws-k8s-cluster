@@ -10,7 +10,7 @@ resource "aws_vpc" "cluster_vpc" {
 }
 
 # Creates the Internet Gateway for the created VPC
-resource "aws_internet_gateway" "main-igw" {
+resource "aws_internet_gateway" "main_igw" {
   vpc_id = aws_vpc.cluster_vpc.id
 
   tags = {
@@ -19,12 +19,12 @@ resource "aws_internet_gateway" "main-igw" {
 }
 
 # Adds the internet route to the main RT
-resource "aws_default_route_table" "public-rt" {
+resource "aws_default_route_table" "public_rt" {
   default_route_table_id = aws_vpc.cluster_vpc.default_route_table_id
 
   route {
     cidr_block = "0.0.0.0/0" # reaches everywhere throught the IGW
-    gateway_id = aws_internet_gateway.main-igw.id
+    gateway_id = aws_internet_gateway.main_igw.id
   }
 
   tags = {

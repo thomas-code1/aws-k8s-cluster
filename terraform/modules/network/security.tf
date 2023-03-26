@@ -63,13 +63,28 @@ resource "aws_security_group_rule" "all_outbound" {
 }
 
 
-# Controlplane port rules
+# Controlplane Port Rules
 
-resource "aws_security_group_rule" "k8s_controlplane_rules" {
+resource "aws_security_group_rule" "k8s_controlplane_rules_1" {
 
-  for_each                 = local.controlplane_port_rules
-  security_group_id        = aws_security_group.controlplane_sg.id
+  source_security_group_id = aws_security_group.controlplane_sg.id
+
+  for_each          = local.controlplane_port_rules
+  security_group_id = aws_security_group.controlplane_sg.id
+
+  description = each.value.description
+  type        = "ingress"
+  from_port   = each.value.from_port
+  to_port     = each.value.to_port
+  protocol    = "tcp"
+}
+
+resource "aws_security_group_rule" "k8s_controlplane_rules_2" {
+
   source_security_group_id = aws_security_group.worker_sg.id
+
+  for_each          = local.controlplane_port_rules
+  security_group_id = aws_security_group.controlplane_sg.id
 
   description = each.value.description
   type        = "ingress"
@@ -81,11 +96,24 @@ resource "aws_security_group_rule" "k8s_controlplane_rules" {
 
 # Worker port rules
 
-resource "aws_security_group_rule" "k8s_worker_rules" {
-
-  for_each                 = local.worker_port_rules
-  security_group_id        = aws_security_group.worker_sg.id
+resource "aws_security_group_rule" "k8s_worker_rules_1" {
   source_security_group_id = aws_security_group.controlplane_sg.id
+
+  for_each          = local.worker_port_rules
+  security_group_id = aws_security_group.worker_sg.id
+
+  description = each.value.description
+  type        = "ingress"
+  from_port   = each.value.from_port
+  to_port     = each.value.to_port
+  protocol    = "tcp"
+}
+
+resource "aws_security_group_rule" "k8s_worker_rules_2" {
+  source_security_group_id = aws_security_group.worker_sg.id
+
+  for_each          = local.worker_port_rules
+  security_group_id = aws_security_group.worker_sg.id
 
   description = each.value.description
   type        = "ingress"

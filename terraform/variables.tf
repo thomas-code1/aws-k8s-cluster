@@ -1,7 +1,7 @@
 variable "worker_number" {
   type        = number
   description = "Number of K8S worker nodes to provision"
-  default     = 3
+  default     = 2
 }
 
 variable "aws_region" {

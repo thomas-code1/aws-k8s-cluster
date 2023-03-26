@@ -23,6 +23,8 @@ module "network" {
   source = "./modules/network"
 }
 
+
+# Creates the controlplane node
 module "controlplane" {
   source = "./modules/ec2"
 
@@ -35,6 +37,7 @@ module "controlplane" {
   node_sg_id = module.network.controlplane_sg_id
 }
 
+# Creates the worker nodes
 module "worker" {
   count  = var.worker_number
   source = "./modules/ec2"

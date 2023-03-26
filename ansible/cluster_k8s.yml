@@ -1,7 +1,14 @@
 ---
-- name: "Install K8S Cluster"
+- name: "Deploy the K8S Cluster"
   hosts: all
   become: true
   roles:
     - role: geerlingguy.containerd
     - role: geerlingguy.kubernetes
+
+- name: "K9S installation and setup of ubuntu user"
+  hosts: controlplane
+  become: true
+  roles:
+    - role: andrewrothstein.k9s
+    - role: user-k8s-config
