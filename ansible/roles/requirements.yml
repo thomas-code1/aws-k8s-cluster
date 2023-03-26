@@ -1,5 +1,5 @@
 ---
 roles:
-  - name: geerlingguy.kubernetes
-  - name: geerlingguy.containerd
+  #  - name: geerlingguy.kubernetes
+  #  - name: geerlingguy.containerd
   - name: andrewrothstein.k9s
