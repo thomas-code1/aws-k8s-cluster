@@ -31,7 +31,7 @@ module "controlplane" {
   node_ami  = data.aws_ami.ubuntu_ami.image_id
   node_size = var.ec2_type
 
-  # creates the controlplane on the 1st new subnet created
+  # creates the controlplane on the 1st newly created subnet
   node_subnet = module.network.subnet_list[0]
 
   associate_public_ip = true
@@ -48,7 +48,7 @@ module "worker" {
   node_ami  = data.aws_ami.ubuntu_ami.image_id
   node_size = var.ec2_type
 
-  # creates the nodes on the different subnets created
+  # creates the nodes on the different newly created subnets
   node_subnet = element(module.network.subnet_list, count.index % length(module.network.subnet_list))
 
   associate_public_ip = true
