@@ -15,5 +15,5 @@ output "worker_sg_id" {
 
 output "ssh_key" {
   description = "SSH key pair"
-  value       = aws_key_pair.thomas_key.key_name
+  value       = aws_key_pair.k8s_key.key_name
 }

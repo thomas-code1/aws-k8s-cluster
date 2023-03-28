@@ -1,6 +1,6 @@
 # Creation of SSH Key
 
-resource "aws_key_pair" "thomas_key" {
+resource "aws_key_pair" "k8s_key" {
   key_name   = "K8S SSH key"
   public_key = file("~/.ssh/thomas_perso.pub")
 }
