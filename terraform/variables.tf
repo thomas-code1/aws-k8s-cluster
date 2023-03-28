@@ -7,7 +7,7 @@ variable "worker_number" {
 variable "aws_region" {
   description = "AWS Region where to provision the K8S cluster"
   type        = string
-  default     = "eu-west-2"
+  default     = "eu-west-2" # London
 }
 
 variable "ec2_type" {

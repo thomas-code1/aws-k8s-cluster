@@ -37,7 +37,7 @@ module "controlplane" {
   associate_public_ip = true
   node_name           = "K8S Controlplane"
   node_sg_id          = module.network.controlplane_sg_id
-  aws_key             = "thomas"
+  aws_key             = module.network.ssh_key
 }
 
 # Creates the worker nodes
@@ -54,7 +54,7 @@ module "worker" {
   associate_public_ip = true
   node_name           = "K8S Worker ${count.index + 1}"
   node_sg_id          = module.network.worker_sg_id
-  aws_key             = "thomas"
+  aws_key             = module.network.ssh_key
 }
 
 # Creation of Ansible inventory file

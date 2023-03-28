@@ -1,5 +1,11 @@
-# CREATION OF K8S SECURITY GROUPS
+# Creation of SSH Key
 
+resource "aws_key_pair" "thomas_key" {
+  key_name   = "K8S SSH key"
+  public_key = file("~/.ssh/thomas_perso.pub")
+}
+
+# Creation of K8S Security Groups
 
 # Controlplane Security Group
 resource "aws_security_group" "controlplane_sg" {

@@ -12,3 +12,8 @@ output "worker_sg_id" {
   description = "Workers Security Group ID"
   value       = aws_security_group.worker_sg.id
 }
+
+output "ssh_key" {
+  description = "SSH key pair"
+  value       = aws_key_pair.thomas_key.key_name
+}
