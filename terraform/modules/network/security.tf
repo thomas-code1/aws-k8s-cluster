@@ -8,42 +8,24 @@ resource "aws_key_pair" "k8s_key" {
 # Creation of K8S Security Groups
 
 # Controlplane Security Group
-resource "aws_security_group" "controlplane_sg" {
-  name        = "K8S Controlplane SG"
-  description = "K8S Controlplane Security Group"
+resource "aws_security_group" "k8s_sg" {
+  name        = "K8S SG"
+  description = "K8S Security Group"
   vpc_id      = aws_vpc.cluster_vpc.id
 
   tags = {
-    Name = "K8S Controlplane SG"
+    Name = "K8S SG"
   }
 }
-
-# Worker Security Group
-resource "aws_security_group" "worker_sg" {
-  name        = "K8S Worker SG"
-  description = "K8S Worker Security Group"
-  vpc_id      = aws_vpc.cluster_vpc.id
-
-  tags = {
-    Name = "K8S Worker SG"
-  }
-}
-
 
 # DECLARATION OF SECURITY RULES
 
-locals {
-  sg = {
-    "controlplane" = aws_security_group.controlplane_sg.id
-    "worker"       = aws_security_group.worker_sg.id
-  }
-}
+
 
 # SSH Port Rule
 
 resource "aws_security_group_rule" "ssh" {
-  for_each          = local.sg
-  security_group_id = each.value
+  security_group_id = aws_security_group.k8s_sg.id
 
   description = "SSH"
   type        = "ingress"
@@ -53,11 +35,21 @@ resource "aws_security_group_rule" "ssh" {
   cidr_blocks = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "html" {
+  security_group_id = aws_security_group.k8s_sg.id
+
+  description = "HTML"
+  type        = "ingress"
+  from_port   = 30007
+  to_port     = 30007
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
 # Outbound Traffic Port Rule
 
 resource "aws_security_group_rule" "all_outbound" {
-  for_each          = local.sg
-  security_group_id = each.value
+  security_group_id = aws_security_group.k8s_sg.id
 
   description = "All outbound"
   type        = "egress"
@@ -73,57 +65,13 @@ resource "aws_security_group_rule" "all_outbound" {
 
 resource "aws_security_group_rule" "k8s_controlplane_rules_1" {
 
-  source_security_group_id = aws_security_group.controlplane_sg.id
+  security_group_id = aws_security_group.k8s_sg.id
 
-  for_each          = local.controlplane_port_rules
-  security_group_id = aws_security_group.controlplane_sg.id
+  description              = "All trafic"
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  source_security_group_id = aws_security_group.k8s_sg.id
 
-  description = each.value.description
-  type        = "ingress"
-  from_port   = each.value.from_port
-  to_port     = each.value.to_port
-  protocol    = "tcp"
-}
-
-resource "aws_security_group_rule" "k8s_controlplane_rules_2" {
-
-  source_security_group_id = aws_security_group.worker_sg.id
-
-  for_each          = local.controlplane_port_rules
-  security_group_id = aws_security_group.controlplane_sg.id
-
-  description = each.value.description
-  type        = "ingress"
-  from_port   = each.value.from_port
-  to_port     = each.value.to_port
-  protocol    = "tcp"
-}
-
-
-# Worker port rules
-
-resource "aws_security_group_rule" "k8s_worker_rules_1" {
-  source_security_group_id = aws_security_group.controlplane_sg.id
-
-  for_each          = local.worker_port_rules
-  security_group_id = aws_security_group.worker_sg.id
-
-  description = each.value.description
-  type        = "ingress"
-  from_port   = each.value.from_port
-  to_port     = each.value.to_port
-  protocol    = "tcp"
-}
-
-resource "aws_security_group_rule" "k8s_worker_rules_2" {
-  source_security_group_id = aws_security_group.worker_sg.id
-
-  for_each          = local.worker_port_rules
-  security_group_id = aws_security_group.worker_sg.id
-
-  description = each.value.description
-  type        = "ingress"
-  from_port   = each.value.from_port
-  to_port     = each.value.to_port
-  protocol    = "tcp"
 }

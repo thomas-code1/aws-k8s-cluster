@@ -26,7 +26,7 @@ module "network" {
 
 # Creates the controlplane node
 module "controlplane" {
-  source = "./modules/ec2"
+  source = "./modules/ec2" # use path.module
 
   node_ami  = data.aws_ami.ubuntu_ami.image_id
   node_size = var.ec2_type
@@ -36,14 +36,14 @@ module "controlplane" {
 
   associate_public_ip = true
   node_name           = "K8S Controlplane"
-  node_sg_id          = module.network.controlplane_sg_id
+  node_sg_id          = module.network.k8s_sg_id
   aws_key             = module.network.ssh_key
 }
 
 # Creates the worker nodes
 module "worker" {
   count  = var.worker_number
-  source = "./modules/ec2"
+  source = "./modules/ec2" # use path.module
 
   node_ami  = data.aws_ami.ubuntu_ami.image_id
   node_size = var.ec2_type
@@ -53,7 +53,7 @@ module "worker" {
 
   associate_public_ip = true
   node_name           = "K8S Worker ${count.index + 1}"
-  node_sg_id          = module.network.worker_sg_id
+  node_sg_id          = module.network.k8s_sg_id
   aws_key             = module.network.ssh_key
 }
 

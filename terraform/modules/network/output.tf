@@ -3,14 +3,9 @@ output "subnet_list" {
   value       = aws_subnet.cluster_subnet.*.id
 }
 
-output "controlplane_sg_id" {
+output "k8s_sg_id" {
   description = "Controlplane Security Group ID"
-  value       = aws_security_group.controlplane_sg.id
-}
-
-output "worker_sg_id" {
-  description = "Workers Security Group ID"
-  value       = aws_security_group.worker_sg.id
+  value       = aws_security_group.k8s_sg.id
 }
 
 output "ssh_key" {
