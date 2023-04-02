@@ -1,5 +1,5 @@
 output "controlplane_ip" {
-  value = join(", ", module.controlplane.*.public_ip)
+  value = module.controlplane.public_ip
 }
 
 output "worker_ip" {

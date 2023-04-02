@@ -20,8 +20,6 @@ resource "aws_security_group" "k8s_sg" {
 
 # DECLARATION OF SECURITY RULES
 
-
-
 # SSH Port Rule
 
 resource "aws_security_group_rule" "ssh" {
@@ -53,25 +51,21 @@ resource "aws_security_group_rule" "all_outbound" {
 
   description = "All outbound"
   type        = "egress"
-
   from_port   = 0
   to_port     = 0
   protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 }
 
-
-# Controlplane Port Rules
+# All traffic in the SG
 
 resource "aws_security_group_rule" "k8s_controlplane_rules_1" {
-
   security_group_id = aws_security_group.k8s_sg.id
 
-  description              = "All trafic"
+  description              = "All traffic"
   type                     = "ingress"
   from_port                = 0
   to_port                  = 0
   protocol                 = "-1"
   source_security_group_id = aws_security_group.k8s_sg.id
-
 }

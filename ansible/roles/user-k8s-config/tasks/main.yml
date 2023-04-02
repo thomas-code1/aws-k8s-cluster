@@ -16,3 +16,6 @@
 
 - name: Creation of k alias
   shell: echo 'alias k="kubectl"' >> /home/{{user}}/.bashrc
+
+- name: Copy of .bashrc from ubuntu to root user
+  shell: cp /home/{{user}}/.bashrc /root/.bashrc

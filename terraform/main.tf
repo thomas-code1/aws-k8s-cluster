@@ -26,7 +26,7 @@ module "network" {
 
 # Creates the controlplane node
 module "controlplane" {
-  source = "./modules/ec2" # use path.module
+  source = "./modules/ec2"
 
   node_ami  = data.aws_ami.ubuntu_ami.image_id
   node_size = var.ec2_type
@@ -40,10 +40,11 @@ module "controlplane" {
   aws_key             = module.network.ssh_key
 }
 
+
 # Creates the worker nodes
 module "worker" {
+  source = "./modules/ec2"
   count  = var.worker_number
-  source = "./modules/ec2" # use path.module
 
   node_ami  = data.aws_ami.ubuntu_ami.image_id
   node_size = var.ec2_type

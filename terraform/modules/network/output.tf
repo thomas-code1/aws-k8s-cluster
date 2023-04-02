@@ -4,7 +4,7 @@ output "subnet_list" {
 }
 
 output "k8s_sg_id" {
-  description = "Controlplane Security Group ID"
+  description = "K8S Security Group ID"
   value       = aws_security_group.k8s_sg.id
 }
 
