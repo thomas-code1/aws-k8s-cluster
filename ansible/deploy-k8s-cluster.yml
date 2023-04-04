@@ -12,3 +12,4 @@
   roles:
     - role: andrewrothstein.k9s
     - role: user-k8s-config
+    - role: ansible-k8s
