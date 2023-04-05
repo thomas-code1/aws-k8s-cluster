@@ -1,0 +1,19 @@
+---
+- name: Download binaries
+  get_url:
+    url: https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+    dest: /home/{{ user }}/argocd-linux-amd64
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Installation
+  copy:
+    src: /home/{{ user }}/argocd-linux-amd64
+    dest: /usr/local/bin/argocd
+    mode: 555
+    remote_src: true
+
+- name: Delete binaries
+  file:
+    name: argocd-linux-amd64
+    state: absent
