@@ -15,7 +15,16 @@
     group: "{{group}}"
 
 - name: Creation of k alias
-  shell: echo 'alias k="kubectl"' >> /home/{{user}}/.bashrc
+  lineinfile:
+    path: /home/{{user}}/.bashrc
+    line: alias k="kubectl"
+    insertafter: EOF
+    state: present
 
 - name: Copy of .bashrc from ubuntu to root user
-  shell: cp /home/{{user}}/.bashrc /root/.bashrc
+  copy:
+    src: /home/{{user}}/.bashrc
+    dest: /root/.bashrc
+    remote_src: yes
+    owner: root
+    group: root
