@@ -36,10 +36,10 @@ resource "aws_security_group_rule" "ssh" {
 resource "aws_security_group_rule" "html" {
   security_group_id = aws_security_group.k8s_sg.id
 
-  description = "HTML"
+  description = "K8S NodePort"
   type        = "ingress"
-  from_port   = 30007
-  to_port     = 30007
+  from_port   = 30000
+  to_port     = 30010
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 }
