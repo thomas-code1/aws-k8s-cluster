@@ -21,6 +21,15 @@
     insertafter: EOF
     state: present
 
+- name: setup of autocompletion
+  lineinfile:
+    path: /home/{{user}}/.bashrc
+    line: |
+      source <(kubectl completion bash)
+      complete -o default -F __start_kubectl k
+    insertafter: EOF
+    state: present
+
 - name: Copy of .bashrc from ubuntu to root user
   copy:
     src: /home/{{user}}/.bashrc
