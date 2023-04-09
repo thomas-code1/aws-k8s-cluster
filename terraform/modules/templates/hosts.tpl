@@ -1,10 +1,13 @@
 [controlplane]
-node01 ansible_ssh_host=${controlplane_ip}
+controlplane ansible_ssh_host=${controlplane_ip}
 
 [workers]
 %{ for index, ip in worker_ip ~}
-node0${index + 2} ansible_ssh_host=${ip}
+worker0${index + 2} ansible_ssh_host=${ip}
 %{ endfor ~}
+
+[nfs]
+controlplane ansible_ssh_host=${nfs_ip} 
 
 [nodes:children]
 controlplane

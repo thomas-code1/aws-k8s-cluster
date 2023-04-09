@@ -24,7 +24,7 @@ module "network" {
 }
 
 
-# Creates the controlplane node
+# Create the controlplane node
 module "controlplane" {
   source = "./modules/ec2"
 
@@ -41,7 +41,7 @@ module "controlplane" {
 }
 
 
-# Creates the worker nodes
+# Create the worker nodes
 module "worker" {
   source = "./modules/ec2"
   count  = var.worker_number
@@ -58,12 +58,29 @@ module "worker" {
   aws_key             = module.network.ssh_key
 }
 
+# Create the worker nodes
+module "nfs" {
+  source = "./modules/ec2"
+
+  node_ami  = data.aws_ami.ubuntu_ami.image_id
+  node_size = "t2.micro"
+
+  # creates the nodes on the different newly created subnets
+  node_subnet = module.network.subnet_list[0]
+
+  associate_public_ip = true
+  node_name           = "NFS Server"
+  node_sg_id          = module.network.k8s_sg_id
+  aws_key             = module.network.ssh_key
+}
+
 # Creation of Ansible inventory file
 resource "local_file" "ansible_inventory" {
   content = templatefile("./modules/templates/hosts.tpl",
     {
       controlplane_ip = module.controlplane.public_ip
       worker_ip       = module.worker.*.public_ip
+      nfs_ip          = module.nfs.public_ip
     }
   )
   filename = "../ansible/hosts"
