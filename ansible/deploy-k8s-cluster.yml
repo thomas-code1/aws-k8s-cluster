@@ -1,6 +1,6 @@
 ---
 - name: "Deploy the K8S Cluster"
-  hosts: all
+  hosts: k8s
   become: true
   roles:
     - role: geerlingguy.containerd
@@ -10,7 +10,7 @@
   hosts: controlplane
   become: true
   roles:
-    - role: andrewrothstein.k9s
+#    - role: andrewrothstein.k9s
     - role: user-setup
     - role: ansible-k8s
 #    - role: argocd

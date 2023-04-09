@@ -6,6 +6,10 @@ output "worker_ip" {
   value = join(", ", module.worker.*.public_ip)
 }
 
+output "nfs_ip" {
+  value = module.nfs.public_ip
+}
+
 output "ami" {
   value = "AMI selected: ${data.aws_ami.ubuntu_ami.image_id}"
 }
