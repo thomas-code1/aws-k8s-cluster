@@ -1,8 +1,8 @@
-# Deployment of a K8S Cluster on AWS
+# Deployment on AWS of a K8S Cluster with a NFS server
 
-Infrastructure:
+Infrastructure provisioning:
 - Terraform deployment (terraform/)
 
 Configuration:
 - Installation of Ansible requirements (ansible/roles/)
-- Execution of cluster_k8s playbook (ansible/)
+- Execution of deploy-k8s-cluster.yml playbook (ansible/)
