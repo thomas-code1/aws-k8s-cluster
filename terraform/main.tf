@@ -78,9 +78,12 @@ module "nfs" {
 resource "local_file" "ansible_inventory" {
   content = templatefile("./modules/templates/hosts.tpl",
     {
-      controlplane_ip = module.controlplane.public_ip
-      worker_ip       = module.worker.*.public_ip
-      nfs_ip          = module.nfs.public_ip
+      controlplane_ip         = module.controlplane.public_ip
+      controlplane_private_ip = module.controlplane.private_ip
+      worker_ip               = module.worker.*.public_ip
+      worker_private_ip       = module.worker.*.private_ip
+      nfs_ip                  = module.nfs.public_ip
+      nfs_private_ip          = module.nfs.private_ip
     }
   )
   filename = "../ansible/hosts"

@@ -1,13 +1,13 @@
 [controlplane]
-controlplane ansible_ssh_host=${controlplane_ip}
+controlplane ansible_ssh_host=${controlplane_ip} private_ip=${controlplane_private_ip}
 
 [workers]
 %{ for index, ip in worker_ip ~}
-worker0${index + 1} ansible_ssh_host=${ip}
+worker0${index + 1} ansible_ssh_host=${ip} private_ip=${worker_private_ip[index]}
 %{ endfor ~}
 
 [nfs]
-nfs ansible_ssh_host=${nfs_ip} 
+nfs ansible_ssh_host=${nfs_ip} private_ip=${nfs_private_ip}
 
 [k8s:children]
 controlplane
