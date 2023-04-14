@@ -20,7 +20,8 @@ data "aws_ami" "ubuntu_ami" {
 
 # 
 module "network" {
-  source = "./modules/network"
+  source         = "./modules/network"
+  nfs_private_ip = module.nfs.private_ip
 }
 
 

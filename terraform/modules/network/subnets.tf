@@ -15,3 +15,28 @@ resource "aws_subnet" "cluster_subnet" {
     Name = "K8S Cluster subnet ${count.index + 1}"
   }
 }
+
+
+# Creation of Route 53 zone
+
+resource "aws_route53_zone" "nfs" {
+  name = "cluster"
+  vpc {
+    vpc_id = aws_vpc.cluster_vpc.id
+  }
+
+  tags = {
+    Name = "NFS"
+  }
+}
+
+
+# Creation of A record
+
+resource "aws_route53_record" "nfs" {
+  zone_id = aws_route53_zone.nfs.zone_id
+  name    = "nfs"
+  type    = "A"
+  ttl     = "300"
+  records = [var.nfs_private_ip]
+}
