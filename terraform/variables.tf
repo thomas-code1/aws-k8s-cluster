@@ -13,6 +13,7 @@ variable "aws_region" {
 variable "ec2_type" {
   description = "EC2 Type"
   type        = string
-  default     = "c5.xlarge" # 4 vCPU 8Gi
+  default     = "c5.large" # 2 vCPU 4Gi
+  #   default     = "c5.xlarge" # 4 vCPU 8Gi
   #  default     = "t3.small"
 }
